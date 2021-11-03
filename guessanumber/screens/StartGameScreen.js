@@ -12,6 +12,8 @@ import colors from "../constants/colors";
 import Card from "../components/Card";
 import Input from "../components/Input";
 
+import NumberContainer from "../components/NumberContainer";
+
 const StartGameScreen = (props) => {
   const [enteredvalue, setenteredvalue] = useState("");
   const [isconfirmed, setisconfirmed] = useState(false);
@@ -39,6 +41,7 @@ const StartGameScreen = (props) => {
     setisconfirmed(true);
     setnumber(+enteredvalue);
     setenteredvalue("");
+    Keyboard.dismiss();
   };
 
   return (
@@ -49,7 +52,7 @@ const StartGameScreen = (props) => {
     >
       <View style={styles.screen}>
         <Text style={styles.title}>Start a New Game!</Text>
-        <Card styles={styles.inputcontainer}>
+        <Card style={styles.inputcontainer}>
           <Text>Select a Number</Text>
           <Input
             onChangeText={numberinputhandler}
@@ -67,7 +70,6 @@ const StartGameScreen = (props) => {
               <Button
                 onPress={resetinputhandler}
                 title="Reset"
-                onPress={() => {}}
                 color={colors.accent}
               />
             </View>
@@ -75,13 +77,23 @@ const StartGameScreen = (props) => {
               <Button
                 onPress={confirminputhandler}
                 title="Confirm"
-                onPress={() => {}}
                 color={colors.primary}
               />
             </View>
           </View>
         </Card>
-        {isconfirmed && <Text>Chosen number is : {selectednumber}</Text>}
+        {isconfirmed && (
+          <Card style={styles.summary}>
+            <Text>You Selected</Text>
+            <NumberContainer>{selectednumber}</NumberContainer>
+            <Button
+              title="Start game"
+              onPress={() => {
+                props.onStart(selectednumber);
+              }}
+            />
+          </Card>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -110,6 +122,10 @@ const styles = StyleSheet.create({
   input: {
     width: 50,
     textAlign: "center",
+  },
+  summary: {
+    marginTop: 20,
+    alignItems: "center",
   },
 });
 
