@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import MainButton from "../components/MainButton";
 import {
   Alert,
   Keyboard,
@@ -86,12 +87,13 @@ const StartGameScreen = (props) => {
           <Card style={styles.summary}>
             <Text style={styles.text}>You Selected</Text>
             <NumberContainer>{selectednumber}</NumberContainer>
-            <Button
-              title="Start game"
+            <MainButton
               onPress={() => {
                 props.onStart(selectednumber);
               }}
-            />
+            >
+              Start Game
+            </MainButton>
           </Card>
         )}
       </View>

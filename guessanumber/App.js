@@ -43,30 +43,22 @@ export default function App() {
     setrounds(0);
   };
 
-  // {
-    /* {!selectednumber && <StartGameScreen onStart={startgamehandler} />}
-      {selectednumber && numberofrounds <= 0 && (
-        <GameScreen userchoice={selectednumber} onGameOver={gameoverhandler} />
-      )} */
-  // }
-  // {
-    /* {numberofrounds > 0 && */
-  // }
-  // {
-    /* )} */
-  // }
-
   return (
     <View style={styles.screen}>
       <Header title="Guess A Number" />
-      
-      <GameOverScreen
-        onRestart={configurenewgamehandler}
-        userchoice={1}
-        // userchoice={selectednumber}
-        // rounds={numberofrounds}
-        rounds={1}
-      />
+
+      {!selectednumber && <StartGameScreen onStart={startgamehandler} />}
+      {selectednumber && numberofrounds <= 0 && (
+        <GameScreen userchoice={selectednumber} onGameOver={gameoverhandler} />
+      )}
+
+      {numberofrounds > 0 && (
+        <GameOverScreen
+          onRestart={configurenewgamehandler}
+          userchoice={selectednumber}
+          rounds={numberofrounds}
+        />
+      )}
     </View>
   );
 }
