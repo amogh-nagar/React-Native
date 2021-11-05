@@ -1,8 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Alert, Button, View, Text, StyleSheet } from "react-native";
+import {
+  Alert,
+  Button,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import MainButton from "../components/MainButton";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
+
 const genereaterandombetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -13,18 +23,24 @@ const genereaterandombetween = (min, max, exclude) => {
   return rndnum;
 };
 
+const renderlistitems = (value, index) => (
+  <View style={styles.listitem} key={index}>
+    <Text style={{ fontFamily: "open-sans" }}># {index}</Text>
+    <Text style={{ fontFamily: "open-sans" }}>{value}</Text>
+  </View>
+);
+
 const GameScreen = (props) => {
-  const [currentguess, setcurrentguess] = useState(
-    genereaterandombetween(1, 100, props.userchoice)
-  );
+  const intialgues = genereaterandombetween(1, 100, props.userchoice);
+  const [currentguess, setcurrentguess] = useState(intialgues);
 
   const currentlow = useRef(1);
   const currenthigh = useRef(100);
-  const [rounds, setrounds] = useState(0);
+  const [pastguesses, setpastguesses] = useState([intialgues]);
 
   useEffect(() => {
     if (currentguess === props.userchoice) {
-      props.onGameOver(rounds);
+      props.onGameOver(pastguesses.length);
     }
   }, [currentguess, props.userchoice, props.onGameOver]);
 
@@ -52,7 +68,7 @@ const GameScreen = (props) => {
       currentguess
     );
     setcurrentguess(nextnumber);
-    setrounds((prevstate) => prevstate + 1);
+    setpastguesses((prev) => [nextnumber, ...prev]);
   };
 
   return (
@@ -61,12 +77,19 @@ const GameScreen = (props) => {
       <NumberContainer>{currentguess}</NumberContainer>
       <Card style={styles.btncnt}>
         <MainButton onPress={nextguesshandler.bind(null, "lower")}>
-          Lower
+          <Ionicons name="md-remove" size={24} color="white" />
         </MainButton>
         <MainButton onPress={nextguesshandler.bind(null, "greater")}>
-          Greater
+          <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
+      <View style={styles.listcontainer}>
+        <ScrollView contentContainerStyle={styles.list}>
+          {pastguesses.map((guess, index) =>
+            renderlistitems(guess, pastguesses.length - index)
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -84,5 +107,25 @@ const styles = StyleSheet.create({
     width: 400,
     maxWidth: "90%",
   },
+  listitem: {
+    borderColor: "#ccc",
+    padding: 15,
+    borderWidth: 1,
+    marginVertical: 10,
+    backgroundColor: "white",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "60%",
+  },
+  listcontainer: {
+    width: "80%",
+    flex: 1,
+  },
+  list: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexGrow: 1,
+  },
 });
+
 export default GameScreen;
