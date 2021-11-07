@@ -1,9 +1,16 @@
 import React from "react";
 import { Button, View, Text, StyleSheet } from "react-native";
+import { HeaderTitle } from "react-navigation-stack";
+import colors from "../constants/colors";
+import { CATEGORIES } from "../data/dummydata";
+
 const CategoryMeals = (props) => {
+  const catid = props.navigation.getParam("categoryid");
+  const category = CATEGORIES.find((c) => c.id === catid);
   return (
     <View style={styles.screen}>
       <Text>CategoryMeals</Text>
+      <Text>{category.title}</Text>
       <Button
         title="Go to Meal Detail"
         onPress={() => {
@@ -12,13 +19,29 @@ const CategoryMeals = (props) => {
           });
         }}
       />
-      <Button title="Go back" onPress={()=>{
-        //   props.navigation.goBack()
-          props.navigation.pop()
-      }} />
+      <Button
+        title="Go back"
+        onPress={() => {
+          //   props.navigation.goBack()
+          props.navigation.pop();
+        }}
+      />
     </View>
   );
 };
+
+CategoryMeals.navigationOptions = (navigationdata) => {
+  const catid = navigationdata.navigation.getParam("categoryid");
+  const category = CATEGORIES.find((c) => c.id === catid);
+  return {
+    headerTitle: category.title,
+    headerStyle: {
+      backgroundColor: colors.primarycolor,
+    },
+    headerTintColor: "white",
+  };
+};
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
