@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AppLoading from "expo-app-loading";
 import * as Fonts from "expo-font";
-
+import { enableScreens } from "react-native-screens";
 import MealsNavigator from "./navigation/MealsNavigator";
 
 const fetchfonts = () => {
@@ -12,6 +12,8 @@ const fetchfonts = () => {
     "open-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
   });
 };
+
+enableScreens();
 
 export default function App() {
   const [fontload, setfontload] = useState(false);

@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, View, Text, StyleSheet } from "react-native";
 import { HeaderTitle } from "react-navigation-stack";
-import colors from "../constants/colors";
 import { CATEGORIES } from "../data/dummydata";
 
 const CategoryMeals = (props) => {
@@ -35,10 +34,7 @@ CategoryMeals.navigationOptions = (navigationdata) => {
   const category = CATEGORIES.find((c) => c.id === catid);
   return {
     headerTitle: category.title,
-    headerStyle: {
-      backgroundColor: colors.primarycolor,
-    },
-    headerTintColor: "white",
+    
   };
 };
 

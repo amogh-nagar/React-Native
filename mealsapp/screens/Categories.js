@@ -1,5 +1,4 @@
 import React from "react";
-import colors from "../constants/colors";
 import {
   FlatList,
   Button,
@@ -43,10 +42,6 @@ const Categories = (props) => {
 
 Categories.navigationOptions = {
   headerTitle: "Meal Categories",
-  headerStyle: {
-    backgroundColor: colors.primarycolor,
-  },
-  headerTintColor: "white",
 };
 
 const styles = StyleSheet.create({
