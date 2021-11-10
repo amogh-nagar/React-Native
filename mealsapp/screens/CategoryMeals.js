@@ -14,7 +14,12 @@ const CategoryMeals = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.navigation.navigate({});
+          props.navigation.navigate({
+            routeName: "MealDetail",
+            params: {
+              mealId: itemdata.item.id,
+            },
+          });
         }}
         style={styles.mealitem}
       >
